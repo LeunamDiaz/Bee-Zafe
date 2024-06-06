@@ -116,11 +116,12 @@ export default function Button({ children, onClick }) {
             </svg>
             <h3 className="my-3 text-3xl font-semibold">Sonido</h3>
             <div className="space-y-1 leading-tight mb-4">
-              <p>Analiza el éstres de las</p>
-              <p>abejas por medio de la</p>
-              <p>del sonido.</p>
+              <p>Analiza si hay algun peligro</p>
+              <p>en la colmena mediante </p>
+              <p>el sonido.</p>
             </div>
           </div>
+          
         </div>
       </section>
       

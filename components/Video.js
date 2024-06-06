@@ -17,7 +17,7 @@ export default function Button({ children, onClick }) {
           <footer className="flex flex-col flex-grow flex-nowrap justify-end pb-20">
             <div>
               <a
-                href="#"
+                href="/register"
                 className="text-white border-[3px] border-white rounded font-sm px-12 py-2 bg-white/5 backdrop-blur-sm inline-block hover:bg-white hover:text-black transition-colors"
               >
                 Programar una instalación

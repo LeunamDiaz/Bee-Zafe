@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from 'next/link';
 import React, { useState } from "react";
-
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -14,10 +13,10 @@ export default function Navbar() {
     <div>
       <nav className="absolute inset-x-0 top-0 z-40 px-4 py-4 flex justify-between items-center">
         <a className="text-3xl font-bold leading-none" href="#">
-          <Image src="/logoletras.png" width={200} height={50} className="h-12" alt="Logo"></Image>
+          <Image src="/logoletras.png" width={200} height={50} className="h-12" alt="Logo" />
         </a>
         <div className="lg:hidden">
-          <button className="navbar-burger flex items-center text-white p-3 ">
+          <button onClick={toggleMenu} className="navbar-burger flex items-center text-white p-3">
             <svg
               className="block h-4 w-4 fill-current"
               viewBox="0 0 20 20"
@@ -35,29 +34,27 @@ export default function Navbar() {
             </a>
           </li>
           <li className="text-gray-300"></li>
-
+          <li>
+            <Link href="#servicios" legacyBehavior>
+              <a className="hidden lg:inline-block lg:ml-auto py-2 px-6 hover:bg-white text-sm text-white hover:bg-white/5 backdrop-blur-sm transition duration-200">
+                Servicios
+              </a>
+            </Link>
+          </li>
+          <li className="text-gray-300"></li>
           <li>
             <a
               className="hidden lg:inline-block lg:ml-auto py-2 px-6 hover:bg-white text-sm text-white hover:bg-white/5 backdrop-blur-sm transition duration-200"
-              href="#"
+              href="/dashboard"
             >
-              Servicios
+              Tablero
             </a>
           </li>
           <li className="text-gray-300"></li>
           <li>
             <a
               className="hidden lg:inline-block lg:ml-auto py-2 px-6 hover:bg-white text-sm text-white hover:bg-white/5 backdrop-blur-sm transition duration-200"
-              href="#"
-            >
-              Precios
-            </a>
-          </li>
-          <li className="text-gray-300"></li>
-          <li>
-            <a
-              className="hidden lg:inline-block lg:ml-auto py-2 px-6 hover:bg-white text-sm text-white hover:bg-white/5 backdrop-blur-sm transition duration-200"
-              href="#"
+              href="#contacto"
             >
               Contacto
             </a>
@@ -65,11 +62,11 @@ export default function Navbar() {
         </ul>
 
         <Link 
-  href="/login"
-  className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
->
-  Acceder
-</Link>
+          href="/login"
+          className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
+        >
+          Acceder
+        </Link>
         <a
           className="hidden lg:inline-block py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
           href="/register"

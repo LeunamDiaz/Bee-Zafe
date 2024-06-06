@@ -11,7 +11,10 @@ export default function Demo() {
     <>
       <Navbar />
       <Video />
+      <section id="servicios" className="md:p-8 dark:bg-black text-white">
       <Sensor />
+      </section>
+
       <Calltoaction />
 
 
