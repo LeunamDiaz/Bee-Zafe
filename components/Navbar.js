@@ -118,13 +118,7 @@ export default function Navbar() {
                   </div>
                 </Link>
               </li>
-              <li className="mb-1">
-                <Link href="#contacto" legacyBehavior>
-                  <div onClick={closeMenu} className="block p-4 text-sm font-semibold text-black hover:bg-gray-200 rounded">
-                    Contacto
-                  </div>
-                </Link>
-              </li>
+
             </ul>
             <div className="mt-auto">
               <div className="pt-6">
