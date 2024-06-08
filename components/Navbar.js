@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from 'next/link';
 import React, { useState } from "react";
+
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -43,7 +44,7 @@ export default function Navbar() {
           </li>
           <li className="text-gray-300"></li>
           <li>
-            <Link href="/dashboard">
+            <Link href="/dashboard" legacyBehavior>
               <a className="hidden lg:inline-block lg:ml-auto py-2 px-6 hover:bg-white text-sm text-white hover:bg-white/5 backdrop-blur-sm transition duration-200">
                 Tablero
               </a>
@@ -59,21 +60,18 @@ export default function Navbar() {
             </a>
           </li>
         </ul>
-
-        <Link 
-          href="/login"
-          className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
-        >
-          Acceder
+        <Link href="/login" legacyBehavior>
+          <a className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200">
+            Acceder
+          </a>
         </Link>
-        <a
-          className="hidden lg:inline-block py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
-          href="/register"
-        >
-          Registrarse
-        </a>
+        <Link href="/register" legacyBehavior>
+          <a className="hidden lg:inline-block py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200">
+            Registrarse
+          </a>
+        </Link>
       </nav>
-      <div className="navbar-menu relative z-50 hidden">
+      <div className={`navbar-menu relative z-50 ${isMenuOpen ? "block" : "hidden"}`}>
         <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
         <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
           <div className="flex items-center mb-8">
@@ -85,7 +83,7 @@ export default function Navbar() {
                 ></path>
               </svg>
             </a>
-            <button className="navbar-close">
+            <button onClick={toggleMenu} className="navbar-close">
               <svg
                 className="h-6 w-6 text-white cursor-pointer hover:text-gray-500"
                 xmlns="http://www.w3.org/2000/svg"

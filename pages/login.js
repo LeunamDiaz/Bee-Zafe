@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { db } from './firebaseConfig';
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { Link } from 'next/link';
 
 export default function Login() {
   const router = useRouter();
@@ -49,7 +48,7 @@ export default function Login() {
         <div className="absolute -top-40 -right-0 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
         <div className="absolute -top-20 -right-20 w-80 h-80 border-4 rounded-full border-opacity-30 border-t-8"></div>
       </div>
-      <div className="flex flex lg:w-1/2 md:w-1/2 h-screen max-h-screen justify-center py-10 items-center bg-white">
+      <div className="flex lg:w-1/2 md:w-1/2 h-screen max-h-screen justify-center py-10 items-center bg-white">
         <form className="bg-white" onSubmit={handleSubmit}>
           <h1 className="text-gray-800 font-bold text-2xl mb-1">Iniciar Sesión</h1>
           <p className="text-sm font-normal text-gray-600 mb-7">Bienvenido de nuevo</p>
@@ -60,9 +59,7 @@ export default function Login() {
             <input className="pl-2 outline-none border-none" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Contraseña" style={{ color: 'black' }} />
           </div>
           <button type="submit" className="block w-full bg-amber-500 hover:bg-amber-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Iniciar Sesión</button>
-		  <Link href="/register">
-            <a className="text-sm ml-2 text-black hover:text-amber-700 cursor-pointer">No tengo cuenta</a>
-          </Link>
+		  <a className="text-sm ml-2 text-black hover:text-amber-700 cursor-pointer" href="/register">No tengo cuenta</a>
         </form>
       </div>
     </div>

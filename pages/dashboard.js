@@ -164,7 +164,7 @@ export default function Demo() {
               {editMode && (
                 <>
                   <button
-                    className="inline-flex px-5 py-3 text-blue-600 hover:text-blue-700 focus:text-blue-500 hover:bg-blue-100 focus:bg-blue-100 border border-blue-600 rounded-md mb-3"
+                    className="inline-flex px-5 py-3 mr-6 text-blue-600 hover:text-blue-700 focus:text-blue-500 hover:bg-blue-100 focus:bg-blue-100 border border-blue-600 rounded-md mb-3"
                     onClick={guardarCambios}
                   >
                     <svg
@@ -231,7 +231,7 @@ export default function Demo() {
             <div
               key={colmena.id}
               className={`relative p-5 bg-white shadow rounded-lg mb-3 ${
-                colmenasAEliminar.includes(colmena.id) ? "bg-red-200" : ""
+                colmenasAEliminar.includes(colmena.id) ? "bg-red-300" : ""
               }`}
             >
               {editMode && (
