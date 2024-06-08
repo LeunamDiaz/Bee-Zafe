@@ -86,8 +86,8 @@ export default function Register() {
             <input className="pl-2 outline-none border-none" type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirma tu contraseña" style={{ color: 'black' }} />
           </div>
           <button type="submit" className="block w-full bg-amber-500 hover:bg-amber-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Registrar</button>
-          <Link href="/login">
-            <div>Ya tengo una cuenta</div>
+          <Link href="/login" className="text-black">
+            <div>Ya tengo cuenta</div>
           </Link>
         </form>
       </div>

@@ -60,7 +60,7 @@ export default function Login() {
             <input className="pl-2 outline-none border-none" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Contraseña" style={{ color: 'black' }} />
           </div>
           <button type="submit" className="block w-full bg-amber-500 hover:bg-amber-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Iniciar Sesión</button>
-		  <Link href="/register">
+		  <Link href="/register" className="text-black">
             <div>No tengo cuenta</div>
           </Link>
         </form>
