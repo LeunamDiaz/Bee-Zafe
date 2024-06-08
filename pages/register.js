@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { db } from './firebaseConfig';
 import { collection, addDoc } from "firebase/firestore";
+import { Link } from 'next/link';
 
 export default function Register() {
   const router = useRouter();
@@ -85,7 +86,9 @@ export default function Register() {
             <input className="pl-2 outline-none border-none" type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirma tu contraseña" style={{ color: 'black' }} />
           </div>
           <button type="submit" className="block w-full bg-amber-500 hover:bg-amber-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Registrar</button>
-          <a className="text-sm ml-2 text-black hover:text-amber-700 cursor-pointer" href="/login">Ya tengo cuenta</a>
+          <Link href="/login">
+            <a className="text-sm ml-2 text-black hover:text-amber-700 cursor-pointer">Already have an account? Log in</a>
+          </Link>
         </form>
       </div>
     </div>

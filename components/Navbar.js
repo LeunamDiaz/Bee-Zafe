@@ -43,12 +43,11 @@ export default function Navbar() {
           </li>
           <li className="text-gray-300"></li>
           <li>
-            <a
-              className="hidden lg:inline-block lg:ml-auto py-2 px-6 hover:bg-white text-sm text-white hover:bg-white/5 backdrop-blur-sm transition duration-200"
-              href="/dashboard"
-            >
-              Tablero
-            </a>
+            <Link href="/dashboard">
+              <a className="hidden lg:inline-block lg:ml-auto py-2 px-6 hover:bg-white text-sm text-white hover:bg-white/5 backdrop-blur-sm transition duration-200">
+                Tablero
+              </a>
+            </Link>
           </li>
           <li className="text-gray-300"></li>
           <li>
