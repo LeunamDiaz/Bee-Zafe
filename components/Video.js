@@ -18,11 +18,11 @@ export default function Video() {
           <footer className="flex flex-col flex-grow flex-nowrap justify-end pb-20">
             <div>
               <Link href="/register">
-                <a>
+                <div>
                   <button className="text-white border-[3px] border-white rounded font-sm px-12 py-2 bg-white/5 backdrop-blur-sm inline-block hover:bg-white hover:text-black transition-colors">
                     Programar instalación
                   </button>
-                </a>
+                </div>
               </Link>
             </div>
           </footer>
