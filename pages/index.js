@@ -2,6 +2,7 @@ import Calltoaction from "@/components/Calltoaction";
 import Video from "@/components/Video";
 import Navbar from "@/components/Navbar";
 import Sensor from "@/components/Sensor";
+import Footer from "@/components/Footer";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 
@@ -16,6 +17,7 @@ export default function Demo() {
       </section>
 
       <Calltoaction />
+      <Footer />
 
 
 

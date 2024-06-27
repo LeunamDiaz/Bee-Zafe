@@ -1,7 +1,31 @@
-import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Importing useState and useEffect from react
+import { useRouter } from "next/router"; // Importing useRouter from next/router
+import Image from "next/image"; // Correcting the import statement for Image
+import axios from "axios";
 
 export default function Demo() {
+  const [editMode, setEditMode] = useState(false);
+  const [colmenasAEliminar, setColmenasAEliminar] = useState([]);
+  const [userName, setUserName] = useState(""); // State for storing user name
+  const router = useRouter();
+
+  useEffect(() => {
+    const verificarAutenticacion = async () => {
+      try {
+        const response = await axios.get("/api/auth/verify-token");
+        if (response.data.authenticated) {
+          setUserName(response.data.userName);
+        } else {
+          router.push("/login");
+        }
+      } catch (error) {
+        router.push("/login");
+      }
+    };
+
+    verificarAutenticacion(); // Call the authentication function inside useEffect
+  }, []); // Empty dependency array ensures this effect runs only once
+
   const [colmenas, setColmenas] = useState([
     {
       id: 1,
@@ -11,8 +35,6 @@ export default function Demo() {
       deteccionSonidos: "3",
     },
   ]);
-  const [editMode, setEditMode] = useState(false);
-  const [colmenasAEliminar, setColmenasAEliminar] = useState([]);
 
   const añadirColmena = () => {
     const nuevaColmena = {
@@ -230,9 +252,9 @@ export default function Demo() {
           {colmenas.map((colmena) => (
             <div
               key={colmena.id}
-              className={`relative p-5 bg-white shadow rounded-lg mb-3 ${
-                colmenasAEliminar.includes(colmena.id) ? "bg-red-300" : ""
-              }`}
+              className={`relative p-5 ${
+                colmenasAEliminar.includes(colmena.id) ? "bg-red-300" : "bg-white"
+              } shadow rounded-lg mb-3`}
             >
               {editMode && (
                 <div className="absolute top-3 right-3">
@@ -403,3 +425,4 @@ export default function Demo() {
     </div>
   );
 }
+9

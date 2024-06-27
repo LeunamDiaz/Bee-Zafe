@@ -71,6 +71,12 @@ export default function Navbar() {
         >
           Registrarse
         </Link>
+        <Link
+          href="#"
+          className="hidden lg:inline-block py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
+        >
+          Salir
+        </Link>
       </nav>
       {isMenuOpen && (
         <div className="navbar-menu fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { db } from '../firebaseConfig';
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from 'next/link';
+import { auth } from '../firebaseConfig'; // Importa la configuración de Firebase
 
 export default function Login() {
   const router = useRouter();
@@ -22,18 +22,25 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const q = query(collection(db, "users"), where("email", "==", formData.email), where("password", "==", formData.password));
+    if (!formData.email || !formData.password) {
+      alert("Por favor ingrese su correo electrónico y contraseña.");
+      return;
+    }
 
     try {
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        alert("Login exitoso!");
-        router.push('/');
-      } else {
-        alert("Correo o contraseña incorrectos");
-      }
+      const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
+      const user = userCredential.user;
+      alert("Login exitoso!");
+      router.push('/');
     } catch (error) {
-      console.error("Error checking login: ", error);
+      if (error.code === 'auth/user-not-found') {
+        alert("Correo electrónico no encontrado.");
+      } else if (error.code === 'auth/wrong-password') {
+        alert("Contraseña incorrecta.");
+      } else {
+        console.error("Error during sign in: ", error);
+        alert("Error inesperado. Por favor, inténtalo de nuevo más tarde.");
+      }
     }
   };
 
@@ -60,9 +67,7 @@ export default function Login() {
             <input className="pl-2 outline-none border-none" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Contraseña" style={{ color: 'black' }} />
           </div>
           <button type="submit" className="block w-full bg-amber-500 hover:bg-amber-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Iniciar Sesión</button>
-		  <Link href="/register" className="text-black">
-            <div>No tengo cuenta</div>
-          </Link>
+          <span className="text-sm ml-2 hover:text-amber-500 cursor-pointer text-black"><Link href="/register">No tengo cuenta</Link></span>
         </form>
       </div>
     </div>
