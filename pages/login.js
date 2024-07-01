@@ -2,10 +2,13 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Link from 'next/link';
+import Cookies from 'js-cookie';  // Importa la librería js-cookie
 import { auth } from '../firebaseConfig'; // Importa la configuración de Firebase
+import { useAuth } from '../pages/_app';  // Importa el contexto de autenticación
 
 export default function Login() {
   const router = useRouter();
+  const { setUser } = useAuth();  // Usa el contexto de autenticación
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -30,6 +33,14 @@ export default function Login() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, formData.email, formData.password);
       const user = userCredential.user;
+      const token = await user.getIdToken(); // Obtén el token del usuario
+
+      // Guarda el token en las cookies
+      Cookies.set('token', token, { expires: 7 });
+
+      // Actualiza el estado del usuario
+      setUser({ email: user.email });
+
       alert("Login exitoso!");
       router.push('/');
     } catch (error) {

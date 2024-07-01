@@ -1,18 +1,64 @@
 import Image from "next/image";
 import Link from 'next/link';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useAuth } from '../pages/_app';
+import Cookies from 'js-cookie';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, setUser } = useAuth();
 
-  // Function to toggle the menu
+  useEffect(() => {
+    // Verificar el token en las cookies al cargar la página
+    const token = Cookies.get('token');
+    if (token) {
+      // Aquí puedes hacer una llamada a la API para obtener la información del usuario
+      // usando el token y luego actualizar el estado del usuario.
+      fetch('/api/user', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+        .then(response => response.json())
+        .then(data => {
+          setUser(data.user);
+        })
+        .catch(error => {
+          console.error('Error al obtener la información del usuario:', error);
+        });
+    }
+  }, [setUser]);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Function to close the menu
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const handleLogout = async () => {
+    // Opcional: llamar a la API para invalidar el token en el servidor
+    const token = Cookies.get('token');
+    if (token) {
+      try {
+        await fetch('/api/logout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        console.error('Error al cerrar sesión en el servidor:', error);
+      }
+    }
+
+    // Eliminar el token de las cookies y actualizar el estado del usuario
+    Cookies.remove('token');
+    setUser(null);
+    closeMenu();
   };
 
   return (
@@ -52,31 +98,33 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="text-gray-300"></li>
-{/*           <li>
-            <Link href="#contacto" legacyBehavior>
-              <div className="hidden lg:inline-block lg:ml-auto py-2 px-6 hover:bg-white text-sm text-white hover:bg-white/5 backdrop-blur-sm transition duration-200">Contacto</div>
-            </Link>
-          </li> */}
         </ul>
 
-        <Link 
-          href="/login"
-          className="hidden lg:inline-block lg:ml-auto lg:mr-3 py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
-        >
-          Acceder
-        </Link>
-        <Link
-          href="/register"
-          className="hidden lg:inline-block py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
-        >
-          Registrarse
-        </Link>
-        <Link
-          href="#"
-          className="hidden lg:inline-block py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
-        >
-          Salir
-        </Link>
+        <div className="hidden lg:inline-block lg:ml-auto">
+          {!user ? (
+            <>
+              <Link 
+                href="/login"
+                className="mr-3 py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
+              >
+                Acceder
+              </Link>
+              <Link
+                href="/register"
+                className="py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
+              >
+                Registrarse
+              </Link>
+            </>
+          ) : (
+            <button
+              onClick={handleLogout}
+              className="py-2 px-6 hover:bg-white text-sm text-white hover:text-black font-bold rounded-md transition duration-200"
+            >
+              Salir
+            </button>
+          )}
+        </div>
       </nav>
       {isMenuOpen && (
         <div className="navbar-menu fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
@@ -124,21 +172,28 @@ export default function Navbar() {
                   </div>
                 </Link>
               </li>
-
             </ul>
             <div className="mt-auto">
-              <div className="pt-6">
-                <Link href="/login" legacyBehavior>
-                  <div onClick={closeMenu} className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-xl">
-                    Acceder
-                  </div>
-                </Link>
-                <Link href="/register" legacyBehavior>
-                  <div onClick={closeMenu} className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-xl">
-                    Registrarse
-                  </div>
-                </Link>
-              </div>
+              {!user ? (
+                <div className="pt-6">
+                  <Link href="/login" legacyBehavior>
+                    <div onClick={closeMenu} className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-xl">
+                      Acceder
+                    </div>
+                  </Link>
+                  <Link href="/register" legacyBehavior>
+                    <div onClick={closeMenu} className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-xl">
+                      Registrarse
+                    </div>
+                  </Link>
+                </div>
+              ) : (
+                <div className="pt-6">
+                  <button onClick={handleLogout} className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-xl">
+                    Salir
+                  </button>
+                </div>
+              )}
               <p className="my-4 text-xs text-center text-black">
                 <span>Copyright © 2021</span>
               </p>

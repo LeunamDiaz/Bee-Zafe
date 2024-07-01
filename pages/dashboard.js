@@ -1,20 +1,28 @@
-import { useState, useEffect } from "react"; // Importing useState and useEffect from react
-import { useRouter } from "next/router"; // Importing useRouter from next/router
-import Image from "next/image"; // Correcting the import statement for Image
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import Image from "next/image";
+import Cookies from 'js-cookie'; // Importa Cookies para manejar las cookies
+import { getAuth } from "firebase/auth";
+import { getDatabase, ref, onValue, set, push, update } from "firebase/database";
 
 export default function Demo() {
   const [editMode, setEditMode] = useState(false);
+  const [colmenas, setColmenas] = useState([]);
   const [colmenasAEliminar, setColmenasAEliminar] = useState([]);
-  const [userName, setUserName] = useState(""); // State for storing user name
+  const [userName, setUserName] = useState(""); 
+  const [userId, setUserId] = useState(""); 
   const router = useRouter();
 
   useEffect(() => {
     const verificarAutenticacion = async () => {
       try {
-        const response = await axios.get("/api/auth/verify-token");
-        if (response.data.authenticated) {
-          setUserName(response.data.userName);
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const token = Cookies.get('token');
+        if (user && token) {
+          setUserName(user.displayName);
+          setUserId(user.uid);
+          cargarColmenas(user.uid);
         } else {
           router.push("/login");
         }
@@ -23,45 +31,56 @@ export default function Demo() {
       }
     };
 
-    verificarAutenticacion(); // Call the authentication function inside useEffect
-  }, []); // Empty dependency array ensures this effect runs only once
+    verificarAutenticacion();
+  }, []);
 
-  const [colmenas, setColmenas] = useState([
-    {
-      id: 1,
-      produccion: "10 Kg",
-      temperatura: "23°",
-      nivelCO2: "450 ppm",
-      deteccionSonidos: "3",
-    },
-  ]);
+  const cargarColmenas = (uid) => {
+    const db = getDatabase();
+    const colmenasRef = ref(db, 'colmenas/' + uid);
+    onValue(colmenasRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const colmenasList = Object.keys(data).map((key, index) => ({
+          id: key,
+          number: index + 1,
+          ...data[key]
+        }));
+        setColmenas(colmenasList);
+      }
+    });
+  };
 
   const añadirColmena = () => {
-    const nuevaColmena = {
-      id: colmenas.length + 1,
+    const db = getDatabase();
+    const colmenasRef = ref(db, 'colmenas/' + userId);
+    const newColmenaRef = push(colmenasRef);
+    set(newColmenaRef, {
       produccion: "Nueva producción",
       temperatura: "Nueva temperatura",
       nivelCO2: "Nuevo nivel de CO2",
       deteccionSonidos: "Nueva detección de sonidos",
-    };
-    setColmenas([...colmenas, nuevaColmena]);
-  };
-
-  const activarEdicion = () => {
-    setEditMode(true);
+    });
   };
 
   const guardarCambios = () => {
-    setColmenas((prevColmenas) =>
-      prevColmenas.filter((colmena) => !colmenasAEliminar.includes(colmena.id))
-    );
-    setColmenasAEliminar([]);
-    setEditMode(false);
+    const db = getDatabase();
+    const updates = {};
+    colmenasAEliminar.forEach(id => {
+      updates['colmenas/' + userId + '/' + id] = null;
+    });
+    update(ref(db), updates)
+      .then(() => {
+        setColmenasAEliminar([]);
+        setEditMode(false);
+      })
+      .catch(error => {
+        console.error('Error al guardar cambios:', error);
+      });
   };
 
   const borrarColmena = (id) => {
     if (colmenasAEliminar.includes(id)) {
-      setColmenasAEliminar(colmenasAEliminar.filter((colmenaId) => colmenaId !== id));
+      setColmenasAEliminar(colmenasAEliminar.filter(colmenaId => colmenaId !== id));
     } else {
       setColmenasAEliminar([...colmenasAEliminar, id]);
     }
@@ -70,6 +89,20 @@ export default function Demo() {
   const cancelarEdicion = () => {
     setColmenasAEliminar([]);
     setEditMode(false);
+  };
+
+  const activarEdicion = () => {
+    setEditMode(true);
+  };
+
+  const handleLogout = () => {
+    const auth = getAuth();
+    auth.signOut().then(() => {
+      Cookies.remove('token');
+      router.push('/login');
+    }).catch((error) => {
+      console.error('Error al cerrar sesión:', error);
+    });
   };
 
   return (
@@ -96,10 +129,10 @@ export default function Demo() {
           </button>
           <div className="relative w-full max-w-md sm:-ml-2"></div>
           <div className="flex flex-shrink-0 items-center ml-auto">
-            <div className="inline-flex items-center p-2  focus:bg-gray-100 rounded-lg">
+            <div className="inline-flex items-center p-2 focus:bg-gray-100 rounded-lg">
               <span className="sr-only">User Menu</span>
               <div className="hidden md:flex md:flex-col md:items-end md:leading-tight">
-                <span className="font-semibold">Daniel Medina</span>
+                <span className="font-semibold">{userName}</span>
                 <span className="text-sm text-gray-600">Apicultor</span>
               </div>
               <span className="h-12 w-12 ml-2 sm:ml-3 mr-2 bg-gray-100 rounded-full overflow-hidden">
@@ -113,26 +146,7 @@ export default function Demo() {
               </span>
             </div>
             <div className="border-l pl-3 ml-3 space-x-1">
-              <button className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
-                <span className="sr-only">Notifications</span>
-                <span className="absolute top-0 right-0 h-2 w-2 mt-1 mr-2 bg-red-500 rounded-full"></span>
-                <span className="absolute top-0 right-0 h-2 w-2 mt-1 mr-2 bg-red-500 rounded-full animate-ping"></span>
-                <svg
-                  aria-hidden="true"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="h-6 w-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  />
-                </svg>
-              </button>
-              <button className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full">
+              <button className="relative p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full" onClick={handleLogout}>
                 <span className="sr-only">Log out</span>
                 <svg
                   aria-hidden="true"
@@ -186,7 +200,7 @@ export default function Demo() {
               {editMode && (
                 <>
                   <button
-                    className="inline-flex px-5 py-3 mr-6 text-blue-600 hover:text-blue-700 focus:text-blue-500 hover:bg-blue-100 focus:bg-blue-100 border border-blue-600 rounded-md mb-3"
+                    className="inline-flex px-5 py-3  text-blue-600 hover:text-blue-700 focus:text-blue-500 hover:bg-blue-100 focus:bg-blue-100 border border-blue-600 rounded-md mb-3"
                     onClick={guardarCambios}
                   >
                     <svg
@@ -279,7 +293,7 @@ export default function Demo() {
               )}
               <div className="text-center px-5 py-3 rounded-md mb-3">
                 <h2 className="text-2xl font-bold text-black">
-                  Colmena {colmena.id}
+                  Colmena {colmena.number}
                 </h2>
               </div>
               <section className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
@@ -425,4 +439,3 @@ export default function Demo() {
     </div>
   );
 }
-9
