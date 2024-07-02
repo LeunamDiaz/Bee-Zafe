@@ -126,6 +126,7 @@ export default function Demo() {
                   className="h-full w-full object-cover"
                   width="1024"
                   height="1024"
+                  fetchpriority="high"
                 />
               </span>
             </div>
