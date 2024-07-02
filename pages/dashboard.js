@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import Image from "next/image";
 import Cookies from 'js-cookie'; // Importa Cookies para manejar las cookies
 import { getAuth } from "firebase/auth";
@@ -110,23 +111,7 @@ export default function Demo() {
       <aside className="hidden sm:flex sm:flex-col"></aside>
       <div className="flex-grow text-gray-800">
         <header className="flex items-center h-20 px-6 sm:px-10 bg-white">
-          <button className="block sm:hidden relative flex-shrink-0 p-2 mr-2 text-gray-600 hover:bg-gray-100 hover:text-gray-800 focus:bg-gray-100 focus:text-gray-800 rounded-full">
-            <span className="sr-only">Menu</span>
-            <svg
-              aria-hidden="true"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              className="h-6 w-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />
-            </svg>
-          </button>
+ 
           <div className="relative w-full max-w-md sm:-ml-2"></div>
           <div className="flex flex-shrink-0 items-center ml-auto">
             <div className="inline-flex items-center p-2 focus:bg-gray-100 rounded-lg">
@@ -163,6 +148,13 @@ export default function Demo() {
                   />
                 </svg>
               </button>
+            </div>
+            <div className="border-l pl-3 ml-3 space-x-1">
+              <Link href="/" legacyBehavior>
+                <div className="text-sm text-gray-400 font-bold hover:bg-gray-100 hover:text-gray-600 focus:bg-gray-100 focus:text-gray-600 rounded-full px-4 py-2">
+                  Inicio
+                </div>
+              </Link>
             </div>
           </div>
         </header>
@@ -231,10 +223,8 @@ export default function Demo() {
                       className="flex-shrink-0 h-6 w-6 text-white -ml-1 mr-2"
                     >
                       <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                        fill="currentcolor"
+                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
                       />
                     </svg>
                     Cancelar
@@ -271,7 +261,7 @@ export default function Demo() {
               } shadow rounded-lg mb-3`}
             >
               {editMode && (
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-3 right-3 hidden md:block">
                   <button
                     className="text-white mt-3 font-bold rounded bg-red-500 hover:bg-red-600 hover:text-white shadow-md py-3 px-6 inline-flex items-center"
                     onClick={() => borrarColmena(colmena.id)}
@@ -298,33 +288,16 @@ export default function Demo() {
               </div>
               <section className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
                 <div className="flex items-center p-8 bg-white shadow rounded-lg">
-                  <div className="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-amber-500 bg-amber-100 rounded-full mr-6">
+                  <div className="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-blue-600 bg-blue-100 rounded-full mr-6">
                     <svg
                       aria-hidden="true"
                       fill="none"
-                      viewBox="0 0 24 24"
+                      viewBox="0 0 32 32"
                       stroke="currentColor"
-                      className="h-10 w-10"
+                      className="h-8 w-10"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M17.73,5.32V3.41A1.91,1.91,0,0,0,15.82,1.5H8.18A1.91,1.91,0,0,0,6.27,3.41V5.32h0A6.52,6.52,0,0,0,4.36,9.93V20.59A1.91,1.91,0,0,0,6.27,22.5H17.73a1.91,1.91,0,0,0,1.91-1.91V9.93a6.52,6.52,0,0,0-1.91-4.61Z"
-                      />
-                      <line className="cls-1" x1="6.27" y1="5.32" x2="17.73" y2="5.32" />
-                      <polygon
-                        className="cls-1"
-                        points="12 16.72 12 14.92 10.09 13.54 8.18 14.92 8.18 16.72 10.09 18.1 12 16.72"
-                      />
-                      <polygon
-                        className="cls-1"
-                        points="15.82 16.72 15.82 14.92 13.91 13.54 12 14.92 12 16.72 13.91 18.1 15.82 16.72"
-                      />
-                      <polygon
-                        className="cls-1"
-                        points="13.91 13.54 13.91 11.74 12 10.37 10.09 11.74 10.09 13.54 12 14.92 13.91 13.54"
-                      />
+                      <path d="M28,19c0,6.62-5.38,12-12,12S4,25.62,4,19C4,12.58,14.83,1.75,15.3,1.29c0.39-0.39,1.01-0.39,1.4,0C17.17,1.75,28,12.58,28,19z" fill="currentColor"/>
+                      <path d="M14,26c-3.3086,0-6-2.6914-6-6c0-0.5527,0.4478-1,1-1s1,0.4473,1,1c0,2.2061,1.7944,4,4,4c0.5522,0,1,0.4473,1,1S14.5522,26,14,26z" fill="#FFFFFF"/>
                     </svg>
                   </div>
                   <div>
@@ -385,8 +358,8 @@ export default function Demo() {
                   </div>
                 </div>
                 <div className="flex items-center p-8 bg-white shadow rounded-lg">
-                  <div className="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-blue-600 bg-blue-100 rounded-full mr-6">
-                    <svg
+                  <div className="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-amber-500 bg-amber-100 rounded-full mr-6">
+                  <svg
                       aria-hidden="true"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -406,10 +379,11 @@ export default function Demo() {
                       {colmena.deteccionSonidos}
                     </span>
                     <span className="block text-gray-500">
-                      Detección de sonidos
+                      Sonidos detectados
                     </span>
                   </div>
                 </div>
+
               </section>
               {editMode && (
                 <div className="mt-6 text-center md:hidden">

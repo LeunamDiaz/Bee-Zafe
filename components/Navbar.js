@@ -9,11 +9,8 @@ export default function Navbar() {
   const { user, setUser } = useAuth();
 
   useEffect(() => {
-    // Verificar el token en las cookies al cargar la página
     const token = Cookies.get('token');
     if (token) {
-      // Aquí puedes hacer una llamada a la API para obtener la información del usuario
-      // usando el token y luego actualizar el estado del usuario.
       fetch('/api/user', {
         method: 'GET',
         headers: {
@@ -39,7 +36,6 @@ export default function Navbar() {
   };
 
   const handleLogout = async () => {
-    // Opcional: llamar a la API para invalidar el token en el servidor
     const token = Cookies.get('token');
     if (token) {
       try {
@@ -55,7 +51,6 @@ export default function Navbar() {
       }
     }
 
-    // Eliminar el token de las cookies y actualizar el estado del usuario
     Cookies.remove('token');
     setUser(null);
     closeMenu();
@@ -127,47 +122,47 @@ export default function Navbar() {
         </div>
       </nav>
       {isMenuOpen && (
-        <div className="navbar-menu fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-center z-50">
-          <nav className="bg-white border-r w-5/6 max-w-sm py-6 px-6 overflow-y-auto">
+        <div className="navbar-menu fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50">
+          <nav className="bg-black bg-opacity-75 border-r border-gray-700 rounded-lg w-5/6 max-w-sm py-6 px-6 overflow-y-auto relative">
+            <button className="absolute top-4 right-4 navbar-close" onClick={closeMenu}>
+              <svg
+                className="h-6 w-6 text-white cursor-pointer hover:text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M6 18L18 6M6 6l12 12"
+                ></path>
+              </svg>
+            </button>
             <div className="flex items-center mb-8">
               <Link href="#">
                 <Image src="/logoletras.png" width={200} height={50} className="h-12" alt="Logo" />
               </Link>
-              <button className="navbar-close" onClick={closeMenu}>
-                <svg
-                  className="h-6 w-6 text-black cursor-pointer hover:text-gray-500"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </button>
             </div>
             <ul>
               <li className="mb-1">
                 <Link href="/" legacyBehavior>
-                  <div onClick={closeMenu} className="block p-4 text-sm font-semibold text-black hover:bg-gray-200 rounded">
+                  <div onClick={closeMenu} className="block p-4 text-sm font-semibold text-white hover:bg-gray-700 rounded">
                     Inicio
                   </div>
                 </Link>
               </li>
               <li className="mb-1">
                 <Link href="#servicios" legacyBehavior>
-                  <div onClick={closeMenu} className="block p-4 text-sm font-semibold text-black hover:bg-gray-200 rounded">
+                  <div onClick={closeMenu} className="block p-4 text-sm font-semibold text-white hover:bg-gray-700 rounded">
                     Servicios
                   </div>
                 </Link>
               </li>
               <li className="mb-1">
                 <Link href="/dashboard" legacyBehavior>
-                  <div onClick={closeMenu} className="block p-4 text-sm font-semibold text-black hover:bg-gray-200 rounded">
+                  <div onClick={closeMenu} className="block p-4 text-sm font-semibold text-white hover:bg-gray-700 rounded">
                     Tablero
                   </div>
                 </Link>
@@ -177,24 +172,24 @@ export default function Navbar() {
               {!user ? (
                 <div className="pt-6">
                   <Link href="/login" legacyBehavior>
-                    <div onClick={closeMenu} className="block px-4 py-3 mb-3 leading-loose text-xs text-center font-semibold bg-gray-50 hover:bg-gray-100 rounded-xl">
+                    <div onClick={closeMenu} className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-amber-500 hover:bg-amber-600 rounded-xl">
                       Acceder
                     </div>
                   </Link>
                   <Link href="/register" legacyBehavior>
-                    <div onClick={closeMenu} className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-xl">
+                    <div onClick={closeMenu} className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-amber-500 hover:bg-amber-600 rounded-xl">
                       Registrarse
                     </div>
                   </Link>
                 </div>
               ) : (
                 <div className="pt-6">
-                  <button onClick={handleLogout} className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-blue-600 hover:bg-blue-700 rounded-xl">
+                  <button onClick={handleLogout} className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-amber-500 hover:bg-amber-600 rounded-xl">
                     Salir
                   </button>
                 </div>
               )}
-              <p className="my-4 text-xs text-center text-black">
+              <p className="my-4 text-xs text-center text-white">
                 <span>Copyright © 2021</span>
               </p>
             </div>
