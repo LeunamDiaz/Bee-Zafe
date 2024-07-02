@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import Cookies from 'js-cookie'; // Importa Cookies para manejar las cookies
+import Cookies from 'js-cookie';
 import { getAuth } from "firebase/auth";
 import { getDatabase, ref, onValue, set, push, update } from "firebase/database";
 
@@ -33,7 +33,7 @@ export default function Demo() {
     };
 
     verificarAutenticacion();
-  }, []);
+  }, [router]);
 
   const cargarColmenas = (uid) => {
     const db = getDatabase();
@@ -111,7 +111,6 @@ export default function Demo() {
       <aside className="hidden sm:flex sm:flex-col"></aside>
       <div className="flex-grow text-gray-800">
         <header className="flex items-center h-20 px-6 sm:px-10 bg-white">
- 
           <div className="relative w-full max-w-md sm:-ml-2"></div>
           <div className="flex flex-shrink-0 items-center ml-auto">
             <div className="inline-flex items-center p-2 focus:bg-gray-100 rounded-lg">
@@ -223,7 +222,7 @@ export default function Demo() {
                       className="flex-shrink-0 h-6 w-6 text-white -ml-1 mr-2"
                     >
                       <path
-                        fill="currentcolor"
+                        fill="currentColor"
                         d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
                       />
                     </svg>
@@ -274,7 +273,7 @@ export default function Demo() {
                       viewBox="0 0 24 24"
                     >
                       <path
-                        fill="currentcolor"
+                        fill="currentColor"
                         d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
                       />
                     </svg>
@@ -359,7 +358,7 @@ export default function Demo() {
                 </div>
                 <div className="flex items-center p-8 bg-white shadow rounded-lg">
                   <div className="inline-flex flex-shrink-0 items-center justify-center h-16 w-16 text-amber-500 bg-amber-100 rounded-full mr-6">
-                  <svg
+                    <svg
                       aria-hidden="true"
                       fill="none"
                       viewBox="0 0 24 24"
@@ -399,7 +398,7 @@ export default function Demo() {
                       viewBox="0 0 24 24"
                     >
                       <path
-                        fill="currentcolor"
+                        fill="currentColor"
                         d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
                       />
                     </svg>
