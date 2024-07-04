@@ -41,7 +41,7 @@ export default function Login() {
       // Actualiza el estado del usuario
       setUser({ email: user.email });
 
-      alert("Login exitoso!");
+      alert("Inicio de sesión exitoso!");
       router.push('/');
     } catch (error) {
       if (error.code === 'auth/user-not-found') {
@@ -50,7 +50,7 @@ export default function Login() {
         alert("Contraseña incorrecta.");
       } else {
         console.error("Error during sign in: ", error);
-        alert("Error inesperado. Por favor, inténtalo de nuevo más tarde.");
+        alert("Has cometido un error. Por favor, inténtalo de nuevo.");
       }
     }
   };
@@ -69,7 +69,7 @@ export default function Login() {
       </div>
       <div className="flex lg:w-1/2 md:w-1/2 h-screen max-h-screen justify-center py-10 items-center bg-white">
         <form className="bg-white" onSubmit={handleSubmit}>
-          <h1 className="text-gray-800 font-bold text-2xl mb-1">Iniciar Sesión</h1>
+          <h1 className="text-gray-800 font-bold text-2xl mb-1">Iniciar sesión</h1>
           <p className="text-sm font-normal text-gray-600 mb-7">Bienvenido de nuevo</p>
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
             <input className="pl-2 outline-none border-none" type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Correo electrónico" style={{ color: 'black' }} />
@@ -77,7 +77,7 @@ export default function Login() {
           <div className="flex items-center border-2 py-2 px-3 rounded-2xl mb-4">
             <input className="pl-2 outline-none border-none" type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Contraseña" style={{ color: 'black' }} />
           </div>
-          <button type="submit" className="block w-full bg-amber-500 hover:bg-amber-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Iniciar Sesión</button>
+          <button type="submit" className="block w-full bg-amber-500 hover:bg-amber-600 mt-4 py-2 rounded-2xl text-white font-semibold mb-2">Iniciar sesión</button>
           <span className="text-sm ml-2 hover:text-amber-500 cursor-pointer text-black"><Link href="/register">No tengo cuenta</Link></span>
         </form>
       </div>

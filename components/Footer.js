@@ -15,7 +15,7 @@ export default function Footer() {
     Contáctenos en Bee Zafe para programar una instalación.
   </p>
   <p className="mt-4 text-sm text-white">
-    Utilice la información del footer para ponerse en contacto con nosotros.
+    Utilice nuestros medios de comunicación para ponerse en contacto con nosotros.
   </p>
 </div>
 

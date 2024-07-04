@@ -25,14 +25,28 @@ export default function Demo() {
           setUserId(user.uid);
           cargarColmenas(user.uid);
         } else {
-          router.push("/login");
+          router.replace("/login");
         }
       } catch (error) {
-        router.push("/login");
+        router.replace("/login");
       }
     };
 
     verificarAutenticacion();
+
+    const handleRouteChange = (url) => {
+      if (url !== '/login') {
+        const token = Cookies.get('token');
+        if (!token) {
+          router.replace("/login");
+        }
+      }
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
   }, [router]);
 
   const cargarColmenas = (uid) => {
@@ -56,10 +70,10 @@ export default function Demo() {
     const colmenasRef = ref(db, 'colmenas/' + userId);
     const newColmenaRef = push(colmenasRef);
     set(newColmenaRef, {
-      produccion: "Nueva producción",
-      temperatura: "Nueva temperatura",
-      nivelCO2: "Nuevo nivel de CO2",
-      deteccionSonidos: "Nueva detección de sonidos",
+      humedad: "Humedad",
+      temperatura: "Temperatura",
+      nivelCO2: "Nivel de CO2",
+      deteccionSonidos: "Sonido detectado",
     });
   };
 
@@ -100,7 +114,7 @@ export default function Demo() {
     const auth = getAuth();
     auth.signOut().then(() => {
       Cookies.remove('token');
-      router.push('/login');
+      router.replace('/login');
     }).catch((error) => {
       console.error('Error al cerrar sesión:', error);
     });
@@ -302,10 +316,10 @@ export default function Demo() {
                   </div>
                   <div>
                     <span className="block text-2xl font-bold">
-                      {colmena.produccion}
+                      {colmena.humedad}
                     </span>
                     <span className="block text-gray-500">
-                      Producción de miel
+                      Humedad
                     </span>
                   </div>
                 </div>
@@ -383,7 +397,6 @@ export default function Demo() {
                     </span>
                   </div>
                 </div>
-
               </section>
               {editMode && (
                 <div className="mt-6 text-center md:hidden">

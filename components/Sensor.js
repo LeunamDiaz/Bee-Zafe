@@ -32,7 +32,7 @@ export default function Button({ children, onClick }) {
     Poliniza el futuro
   </h2>
   <p className="pr-5 text-base text-white md:text-lg">
-    Revolucionemos la apicultura con colmenas inteligentes equipadas con IoT. Monitoreo en tiempo real del bienestar de las abejas.
+    Revolucionemos la apicultura con colmenas inteligentes equipadas con sensores. Monitoreo en tiempo real del bienestar de las abejas.
   </p>
           </div>
         </div>
@@ -43,7 +43,7 @@ export default function Button({ children, onClick }) {
             ¿Por qué una colmena inteligente?
           </h2>
           <h2 className="mb-5 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
-            Por todo esto.
+            Por todo esto:
           </h2>{" "}
         </div>
         <div className="container mx-auto grid justify-center gap-4 sm:grid-cols-2 lg:grid-cols-3">
